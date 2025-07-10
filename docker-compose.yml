@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  nvim-service:
+    build: .
+    image: nvim-lua
+    container_name: nvim-lua
+    volumes:
+      # Map your local nvim_config folder to the config folder inside the container
+      - ./nvim_config:/home/nvimuser/.config/nvim
+    working_dir: /home/nvimuser
+    user: nvimuser
+    tty: true
+    stdin_open: true
+    command: bash 
