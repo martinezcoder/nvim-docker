@@ -1,38 +1,31 @@
-.PHONY: help build up shell docker-clean orphans logs config-dir
+.PHONY: help build up nvim shell docker-clean orphans logs config-dir
 
-help:
-	@echo "Comandos disponibles para el entorno Neovim Docker:"
-	@echo "  make build        - Construye la imagen Docker (sin caché)"
-	@echo "  make up           - Arranca Neovim directamente en el contenedor"
-	@echo "  make nvim         - Abre Neovim directamente en el contenedor"
-	@echo "  make shell        - Abre una shell bash en el contenedor"
-	@echo "  make docker-clean - Elimina la imagen Docker"
-	@echo "  make orphans      - Elimina contenedores huérfanos"
-	@echo "  make logs         - Muestra los logs del contenedor (si usas docker compose up)"
-	@echo "  make config-dir   - Crea la carpeta de configuración local si no existe"
+help: ## Show this help message
+	@echo "Available commands:"; \
+	awk 'BEGIN {FS = ":.*?## "}; /^[a-zA-Z0-9_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-.DEFAULT_GOAL := help
-
-build:
+build: ## Build the Docker image (no cache)
 	docker build --no-cache -t nvim-lua .
 
-shell:
-	docker compose run --rm nvim-service bash
-
-up:
+up: ## Start Neovim directly in the container
 	docker compose run --rm nvim-service
 
-docker-clean:
+nvim: ## Open Neovim directly in the container
+	docker compose run --rm nvim-service nvim
+
+shell: ## Open a bash shell in the container
+	docker compose run --rm nvim-service bash
+
+docker-clean: ## Remove the Docker image
 	docker rmi -f nvim-lua || true
 
-orphans:
+orphans: ## Remove orphan containers
 	docker compose up --remove-orphans
 
-logs:
+logs: ## Show container logs (if using docker compose up)
 	docker compose logs -f
 
-config-dir:
-	mkdir -p nvim_config 
+config-dir: ## Create the local config directory if it does not exist
+	mkdir -p nvim_config
 
-nvim:
-	docker compose run --rm nvim-service nvim 
+.DEFAULT_GOAL := help 
