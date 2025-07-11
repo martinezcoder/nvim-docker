@@ -1,8 +1,6 @@
 FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Instalar dependencias de compilación
+# Install build dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -13,16 +11,19 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     ca-certificates
 
-# Clonar y compilar Neovim desde GitHub
+# Clone and build Neovim from GitHub
 RUN git clone https://github.com/neovim/neovim.git /tmp/neovim && \
     cd /tmp/neovim && \
     make CMAKE_BUILD_TYPE=Release && \
     make install && \
     rm -rf /tmp/neovim
 
-# Crear usuario no root
+# Create non-root user
 RUN useradd -ms /bin/bash nvimuser
 USER nvimuser
 WORKDIR /home/nvimuser
+
+# Create config directory
+RUN mkdir -p /home/nvimuser/.config/nvim
 
 CMD ["nvim"]
