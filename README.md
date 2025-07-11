@@ -32,8 +32,9 @@ Additionally, it installs:
 - Git, curl, ninja-build, gettext, cmake
 - Build tools (build-essential)
 - ca-certificates
+- ripgrep (for fast text searching with Telescope)
 
-This approach guarantees compatibility across all platforms and avoids issues with architecture-specific binaries or missing AppImages.
+This approach guarantees compatibility across all platforms and avoids issues with architecture-specific binaries or missing AppImages. Neovim is cloned and built from the official GitHub repository during the image build process.
 
 ```bash
 docker build --no-cache -t nvim-lua .
@@ -69,16 +70,17 @@ nvim_docker/
 
 ### Step 1: Build the Docker Image
 
-The Dockerfile installs:
-- Ubuntu 22.04 as base image
-- Neovim (latest version, installed from the official AppImage release)
-- Git, curl, wget, unzip
-- Build tools (build-essential)
-- Lua and LuaRocks
-- Python3 and pip
-- **fuse** (needed to extract and run the Neovim AppImage)
+The Dockerfile compiles Neovim from source on top of Ubuntu 22.04, ensuring compatibility with all processor architectures (including ARM64/Apple Silicon and x86_64).
 
-Neovim is downloaded as an AppImage from the [official releases](https://github.com/neovim/neovim/releases/latest), extracted, and linked as the main `nvim` binary. This ensures you always have the latest stable version, compatible with modern plugins like lazy.nvim.
+Dependencies installed include:
+- Git, curl, ninja-build, gettext, cmake
+- Build tools (build-essential)
+- ca-certificates
+- ripgrep (for fast text searching with Telescope)
+
+Neovim is cloned from the official GitHub repository and built during the image build process. This approach avoids issues with pre-built binaries and ensures the latest stable version is used, regardless of your host architecture.
+
+To build the image:
 
 ```bash
 docker build --no-cache -t nvim-lua .
@@ -110,12 +112,20 @@ nvim
 
 ### Visual Configuration Notes
 
-- **iTerm2/Terminal**: Controls font, font size, background color, transparency, and terminal color scheme
-- **Neovim**: Controls code syntax highlighting, Neovim interface theme, and editor-specific colors
+- **Terminal color scheme (iTerm2, Terminal, etc.):** Controls the base colors of the terminal background, text, and ANSI colors. This affects all terminal applications, including Neovim.
+- **Neovim color scheme (via plugins like lazy.nvim):** Controls how Neovim colors code, UI, and background. Examples: `tokyonight`, `gruvbox`, etc.
 
-To ensure consistent appearance between Docker and local Neovim:
-1. Use the same color scheme in both iTerm2 and Neovim
-2. Font and font size are controlled by your terminal, not Neovim
+If you have `termguicolors` enabled in your Neovim config (which is recommended and already set in this setup), Neovim will use truecolor (24-bit) and display its themes as intended, regardless of the terminal's color scheme—**as long as your terminal supports truecolor**.
+
+**Recommendation:**
+- For the best visual experience with modern Neovim themes, use a terminal with full truecolor support, such as iTerm2, Alacritty, or Kitty.
+- The default Terminal app on macOS may display colors differently or less vibrantly, even with `termguicolors` enabled.
+- You do NOT need to match your terminal's color scheme to your Neovim theme if you use truecolor.
+
+**Summary:**
+- Use a modern terminal with truecolor support for the best Neovim appearance.
+- `termguicolors` should be enabled in your Neovim config (already set).
+- Neovim's theme will look the same inside and outside Docker, provided your terminal supports truecolor.
 
 ### Adding Your Neovim Configuration
 
