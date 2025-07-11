@@ -15,32 +15,48 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- Add your plugins here
   {
     'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme tokyonight]])
-    end,
+    config = require('plugins.tokyonight'),
   },
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    config = require('plugins.treesitter'),
   },
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons', opt = true },
-    config = function()
-      require('lualine').setup()
-    end,
+    config = require('plugins.lualine'),
   },
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require('telescope').setup()
-    end,
+    config = require('plugins.telescope'),
+  },
+  {
+    'williamboman/mason.nvim',
+    config = require('plugins.mason'),
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = { 'williamboman/mason.nvim' },
+    config = require('plugins.mason-lspconfig'),
+  },
+  {
+    'neovim/nvim-lspconfig',
+    config = require('plugins.lspconfig'),
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+    },
+    config = require('plugins.cmp'),
   },
 }) 
