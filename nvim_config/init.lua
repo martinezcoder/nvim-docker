@@ -15,4 +15,10 @@ vim.opt.tabstop = 4           -- Number of spaces per tab
 vim.opt.shiftwidth = 4        -- Number of spaces for each indentation
 vim.opt.expandtab = true      -- Use spaces instead of tabs
 vim.opt.smartindent = true    -- Smart indentation
-vim.opt.termguicolors = true  -- Enable true color support 
+vim.opt.termguicolors = true  -- Enable true color support
+
+-- Telescope keymaps (all start with 's' for search)
+vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>', { desc = 'Search Files' })
+vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', { desc = 'Search by Grep' })
+vim.keymap.set('n', '<leader>sb', '<cmd>Telescope buffers<cr>', { desc = 'Search Buffers' })
+vim.keymap.set('n', '<leader>sh', '<cmd>Telescope help_tags<cr>', { desc = 'Search Help' })

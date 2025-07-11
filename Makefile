@@ -7,8 +7,7 @@ help: ## Show this help message
 build: ## Build the Docker image (no cache)
 	docker build --no-cache -t nvim-lua .
 
-up: ## Start Neovim directly in the container
-	docker compose run --rm nvim-service
+up: shell ## Open a bash shell in the container
 
 nvim: ## Open Neovim directly in the container
 	docker compose run --rm nvim-service nvim
@@ -28,4 +27,4 @@ logs: ## Show container logs (if using docker compose up)
 config-dir: ## Create the local config directory if it does not exist
 	mkdir -p nvim_config
 
-.DEFAULT_GOAL := help 
+.DEFAULT_GOAL := help

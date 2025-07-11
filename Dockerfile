@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     cmake \
     unzip \
     build-essential \
-    ca-certificates
+    ca-certificates \
+    ripgrep
 
 # Clone and build Neovim from GitHub
 RUN git clone https://github.com/neovim/neovim.git /tmp/neovim && \
