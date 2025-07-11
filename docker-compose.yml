@@ -7,6 +7,7 @@ services:
     volumes:
       # Map your local nvim_config folder to the config folder inside the container
       - ./nvim_config:/home/nvimuser/.config/nvim
+      - ${NVIM_WORKSPACE:-$HOME}:/workspace
     working_dir: /home/nvimuser
     user: nvimuser
     tty: true

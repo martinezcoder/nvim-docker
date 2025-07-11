@@ -9,11 +9,11 @@ build: ## Build the Docker image (no cache)
 
 up: shell ## Open a bash shell in the container
 
-nvim: ## Open Neovim directly in the container
-	docker compose run --rm nvim-service nvim
+nvim: ## Open Neovim directly in the container (mounts NVIM_WORKSPACE or $HOME at /workspace)
+	docker compose run --rm -e NVIM_WORKSPACE="${NVIM_WORKSPACE}" nvim-service nvim --cmd 'cd /workspace'
 
-shell: ## Open a bash shell in the container
-	docker compose run --rm nvim-service bash
+shell: ## Open a bash shell in the container (mounts NVIM_WORKSPACE or $HOME at /workspace)
+	docker compose run --rm -e NVIM_WORKSPACE="${NVIM_WORKSPACE}" nvim-service bash
 
 docker-clean: ## Remove the Docker image
 	docker rmi -f nvim-lua || true

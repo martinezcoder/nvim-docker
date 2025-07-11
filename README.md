@@ -108,6 +108,28 @@ And from within the container, run:
 nvim
 ```
 
+### Mounting a Local Folder as Workspace
+
+You can mount any local folder into the container at `/workspace` by setting the `NVIM_WORKSPACE` environment variable. This allows you to use Neovim inside Docker with any project or directory from your host system.
+
+- If `NVIM_WORKSPACE` is set, that path will be mounted at `/workspace` inside the container.
+- If `NVIM_WORKSPACE` is **not** set, your home directory (`$HOME`) will be mounted at `/workspace` by default.
+
+**Examples:**
+
+- Mount a specific project folder:
+  ```sh
+  NVIM_WORKSPACE=/Users/youruser/projects/myproject make nvim
+  ```
+- Use your home directory (default):
+  ```sh
+  make nvim
+  ```
+
+Inside Neovim (in Docker), you can then open files from `/workspace` as needed.
+
+This makes the setup flexible and user-friendly for different workflows and users.
+
 ## Configuration
 
 ### Visual Configuration Notes
