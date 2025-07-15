@@ -6,4 +6,6 @@ return function()
       },
     },
   }
-end 
+  vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+end

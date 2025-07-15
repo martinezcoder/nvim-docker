@@ -13,4 +13,6 @@ return function()
   }
   -- Keymap to toggle nvim-tree with Ctrl+n
   vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { desc = 'Toggle file explorer' })
-end 
+  vim.keymap.set('n', '<Leader>++', ":NvimTreeResize +5<CR>", { desc = 'Resize Tree +5' })
+  vim.keymap.set('n', '<Leader>--', ":NvimTreeResize -5<CR>", { desc = 'Resize Tree -5' })
+end

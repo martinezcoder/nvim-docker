@@ -22,3 +22,24 @@ vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>', { desc = 'Sea
 vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', { desc = 'Search by Grep' })
 vim.keymap.set('n', '<leader>sb', '<cmd>Telescope buffers<cr>', { desc = 'Search Buffers' })
 vim.keymap.set('n', '<leader>sh', '<cmd>Telescope help_tags<cr>', { desc = 'Search Help' })
+
+-- Show line numbers everywhere except in nvim-tree
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.filetype ~= "NvimTree" then
+      vim.opt_local.number = true
+    else
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+    end
+  end,
+})
+
+-- Always open all folds when opening a file
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("normal! zR")
+  end,
+})
