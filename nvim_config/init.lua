@@ -17,6 +17,8 @@ vim.opt.expandtab = true      -- Use spaces instead of tabs
 vim.opt.smartindent = true    -- Smart indentation
 vim.opt.termguicolors = true  -- Enable true color support
 
+vim.opt.clipboard = 'unnamedplus' -- Use system clipboard for copy/paste (yy, y, p works in visual mode)
+
 -- Telescope keymaps (all start with 's' for search)
 vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>', { desc = 'Search Files' })
 vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', { desc = 'Search by Grep' })
@@ -41,5 +43,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
   callback = function()
     vim.cmd("normal! zR")
+  end,
+})
+
+-- Highliht the text that was yanked, like when you use 'yy' or 'y' in visual mode
+vim.api.nvim_create_autocmd("TextYankPost", {
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
   end,
 })
