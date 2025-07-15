@@ -68,4 +68,9 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     config = require('plugins.gitsigns'),
   },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = "ibl",
+    opts = require('plugins.ibl'),
+  },
 })

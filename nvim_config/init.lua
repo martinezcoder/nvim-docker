@@ -53,3 +53,29 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
   end,
 })
+
+-- Working with Tabs
+vim.keymap.set('n', '<C-e>', ":tabnew<CR>", {})
+vim.keymap.set('n', '<C-h>', "gt", {})
+vim.keymap.set('n', '<C-c>', ":tabclose<CR>", {})
+
+-- Toggle indent guides (ibl) with <leader>i
+local ibl = require('ibl')
+local ibl_opts = require('plugins.ibl')
+local guides_visible = true
+
+vim.keymap.set('n', '<leader>i', function()
+  if guides_visible then
+    -- Hide indent guides by setting char to empty string
+    ibl.setup(vim.tbl_deep_extend("force", ibl_opts, {
+      indent = vim.tbl_deep_extend("force", ibl_opts.indent or {}, { char = "" })
+    }))
+    guides_visible = false
+    vim.notify("Indent guides hidden", vim.log.levels.INFO)
+  else
+    -- Restore indent guides with rainbow colors
+    ibl.setup(ibl_opts)
+    guides_visible = true
+    vim.notify("Indent guides visible", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle indent guides (ibl)" })
