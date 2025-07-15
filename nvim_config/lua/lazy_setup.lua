@@ -59,4 +59,9 @@ require('lazy').setup({
     },
     config = require('plugins.cmp'),
   },
-}) 
+  {
+    'nvim-tree/nvim-tree.lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = require('plugins.nvim-tree'),
+  },
+})
