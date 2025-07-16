@@ -15,4 +15,6 @@ return function()
       -- previewer = false,
     })
   end, { desc = '[/] Fuzzily search in current buffer]' })
+
+  vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[s]earch [d]iagnostics' })
 end

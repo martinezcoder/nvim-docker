@@ -6,6 +6,18 @@ return function()
       },
     },
   }
+
+  require('lspconfig').solargraph.setup {
+    cmd = { "solargraph", "stdio" }, -- Use the Mason/global binary, not bundle exec
+    settings = {
+      solargraph = {
+        diagnostics = true,
+        completion = true,
+        formatting = true,
+      }
+    }
+  }
+
   vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 end
