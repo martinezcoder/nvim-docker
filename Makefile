@@ -5,12 +5,9 @@ help: ## Show this help message
 	awk 'BEGIN {FS = ":.*?## "}; /^[a-zA-Z0-9_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 build: ## Build the Docker image (no cache)
-	docker build --no-cache -t nvim-lua .
+	docker build --no-cache --build-arg RUBY_VERSION="$$(cat .ruby-version)" -t nvim-lua .
 
 up: shell ## Open a bash shell in the container
-
-nvim: ## Open Neovim directly in the container (mounts NVIM_WORKSPACE or $HOME at /workspace)
-	docker compose run --rm -e NVIM_WORKSPACE="${NVIM_WORKSPACE}" nvim-service nvim --cmd 'cd /workspace'
 
 shell: ## Open a bash shell in the container (mounts NVIM_WORKSPACE or $HOME at /workspace)
 	docker compose run --rm -e NVIM_WORKSPACE="${NVIM_WORKSPACE}" nvim-service bash
@@ -26,5 +23,10 @@ logs: ## Show container logs (if using docker compose up)
 
 config-dir: ## Create the local config directory if it does not exist
 	mkdir -p nvim_config
+
+nvim: ## Open Neovim in the container with Ruby version auto-selected from workspace (mounts NVIM_WORKSPACE or $HOME at /workspace)
+	docker compose run --rm -e NVIM_WORKSPACE="${NVIM_WORKSPACE}" \
+		--entrypoint /entrypoint-ruby-nvim.sh \
+		nvim-service nvim --cmd 'cd /workspace'
 
 .DEFAULT_GOAL := help
