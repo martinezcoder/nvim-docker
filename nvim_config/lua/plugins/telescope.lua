@@ -29,7 +29,7 @@ return function()
   local action_state = require('telescope.actions.state')
   local previewers = require('telescope.previewers')
 
-  local function all_diagnostics_picker()
+  local function all_buffer_diagnostics_picker()
     local bufnr = vim.api.nvim_get_current_buf()
     local all_diags = {}
     -- Collect diagnostics from all namespaces for the current buffer only
@@ -70,6 +70,7 @@ return function()
             vim.api.nvim_buf_add_highlight(self.state.bufnr, -1, "Visual", lnum, 0, -1)
             pcall(vim.api.nvim_win_set_cursor, self.state.winid, { lnum + 1, 0 })
           end
+          vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", vim.api.nvim_buf_get_option(bufnr, "filetype"))
         end,
       },
       attach_mappings = function(prompt_bufnr, map)
@@ -85,5 +86,5 @@ return function()
     }):find()
   end
 
-  vim.keymap.set('n', '<leader>sd', all_diagnostics_picker, { desc = '[S]earch [D]iagnostics (current buffer, all namespaces)' })
+  vim.keymap.set('n', '<leader>sd', all_buffer_diagnostics_picker, { desc = '[s]earch [d]iagnostics (current buffer, all namespaces)' })
 end

@@ -15,10 +15,10 @@ return function()
           local found = utils.root_has_file("Gemfile")
 
           if found then
-            print("Running: bundle exec rubocop ...")
+            --print("Running: bundle exec rubocop ...")
 
             local rubocop_version = vim.fn.system("bundle exec rubocop --version")
-            print("Rubocop version: " .. rubocop_version)
+            --print("Rubocop version: " .. rubocop_version)
 
             -- print("PATH: " .. vim.fn.getenv("PATH"))
             -- print("BUNDLE_GEMFILE: " .. (vim.fn.getenv("BUNDLE_GEMFILE") or "nil"))
