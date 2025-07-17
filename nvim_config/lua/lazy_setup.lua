@@ -85,4 +85,9 @@ require('lazy').setup({
   {
     'hrsh7th/cmp-nvim-lua',
   },
+  {
+    'nvimtools/none-ls.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = require('plugins.null-ls'),
+  },
 })

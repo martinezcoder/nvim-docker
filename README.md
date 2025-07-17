@@ -9,6 +9,42 @@ This project creates a Docker container with Neovim and Lua installed, allowing 
 - Use Lua for plugin management and configuration
 - Keep your local Neovim setup untouched
 - Share and reproduce the environment across different machines
+- **Advanced Ruby support**: asdf-managed Ruby, Solargraph LSP, Rubocop diagnostics
+- **Modern autocompletion**: nvim-cmp with LSP, buffer, path, cmdline, and Lua sources
+- **Diagnostics and search**: Telescope integration for diagnostics, files, and more
+
+## Notable Plugins
+
+- [lazy.nvim](https://github.com/folke/lazy.nvim) - Plugin manager
+- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - Autocompletion engine
+  - [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
+  - [cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
+  - [cmp-path](https://github.com/hrsh7th/cmp-path)
+  - [cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
+  - [cmp-nvim-lua](https://github.com/hrsh7th/cmp-nvim-lua)
+- [mason.nvim](https://github.com/williamboman/mason.nvim) - LSP/DAP/linter installer
+- [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) - LSP configuration
+- [none-ls.nvim (null-ls)](https://github.com/nvimtools/none-ls.nvim) - External diagnostics (Rubocop)
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) - Fuzzy finder and diagnostics picker
+- [solargraph](https://solargraph.org/) - Ruby LSP (via gem and Mason)
+- [rubocop](https://github.com/rubocop/rubocop) - Ruby linter (via null-ls)
+
+## Ruby Support
+
+- Ruby is managed via [asdf](https://asdf-vm.com/), with the version specified at build time (see `.ruby-version`).
+- Solargraph LSP is installed globally (via Mason) and can be used in any Ruby project.
+- Rubocop diagnostics are provided via null-ls, using `bundle exec` if a Gemfile is present.
+
+## Autocompletion
+
+- nvim-cmp provides autocompletion from LSP, buffer, path, cmdline, and Lua sources.
+- Solargraph powers Ruby-aware completion and navigation.
+
+## Diagnostics and Search
+
+- Telescope is integrated for searching files, buffers, and diagnostics (`<leader>sd`).
+- Diagnostics from both LSP and Rubocop are shown inline and in Telescope.
 
 ## Prerequisites
 

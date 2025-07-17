@@ -14,6 +14,7 @@ return function()
         diagnostics = true,
         completion = true,
         formatting = true,
+        rubocop = false, -- Rubocop is managed by none-ls plugin
       }
     }
   }

@@ -14,4 +14,4 @@ return function()
   vim.keymap.set('n', '<leader>gb', function()
     require('gitsigns').blame_line { full = true }
   end, { desc = 'Show full git blame for current line' })
-end 
+end
