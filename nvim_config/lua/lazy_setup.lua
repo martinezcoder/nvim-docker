@@ -90,4 +90,7 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = require('plugins.null-ls'),
   },
+  {
+    'github/copilot.vim',
+  },
 })
