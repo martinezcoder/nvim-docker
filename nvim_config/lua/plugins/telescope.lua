@@ -12,8 +12,13 @@ return function()
   }
 
   -- Keymaps for Telescope
+  vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>', { desc = '[s]earch [f]iles' })
+  vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', { desc = '[s]earch by [g]rep' })
+  vim.keymap.set('n', '<leader><space>', '<cmd>Telescope buffers<cr>', { desc = '[ ] Find existing buffers' })
+  vim.keymap.set('n', '<leader>sh', '<cmd>Telescope help_tags<cr>', { desc = '[s]earch [h]elp' })
+  vim.keymap.set('n', '<leader>sw', '<cmd>Telescope grep_string<cr>', { desc = '[s]earch current [w]ord' })
   vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
-  vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
   vim.keymap.set('n', '<leader>/', function()
     builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
       winblend = 10,

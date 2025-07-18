@@ -1,9 +1,3 @@
--- Telescope keymaps (all start with 's' for search)
-vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>', { desc = 'Search Files' })
-vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', { desc = 'Search by Grep' })
-vim.keymap.set('n', '<leader>sb', '<cmd>Telescope buffers<cr>', { desc = 'Search Buffers' })
-vim.keymap.set('n', '<leader>sh', '<cmd>Telescope help_tags<cr>', { desc = 'Search Help' })
-
 -- Next keymaps resolves a very specific use case of my setup (a US keyboard layout with a Spanish locale).
 
 -- Insert '<' in insert mode with 'ññ'
