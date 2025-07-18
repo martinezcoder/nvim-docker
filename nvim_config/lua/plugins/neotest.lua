@@ -1,7 +1,9 @@
 return function()
   require("neotest").setup({
     adapters = {
-      require("neotest-rspec")
+      require("neotest-rspec")({
+        args = { "--format", "documentation" }
+      })
     },
   })
 
@@ -12,4 +14,4 @@ return function()
   map('n', '<Leader>to', ':lua require("neotest").output.open()<CR>', options)
   map('n', '<Leader>ta', ':lua require("neotest").run.attach()<CR>', options)
   map('n', '<Leader>ts', ':lua require("neotest").summary.open()<CR>', options)
-end 
+end
