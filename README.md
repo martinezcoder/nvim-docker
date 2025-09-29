@@ -45,6 +45,7 @@ This project creates a Docker container with Neovim and Lua installed, allowing 
 
 - Telescope is integrated for searching files, buffers, and diagnostics (`<leader>sd`).
 - Diagnostics from both LSP and Rubocop are shown inline and in Telescope.
+- Execute `:checkhealth` in the nvim editor to check errors and warnings.
 
 ## Prerequisites
 
