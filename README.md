@@ -1,51 +1,95 @@
-# Neovim Docker Environment
+# Neovim Docker Environment for Ruby Developers
 
-A Docker-based isolated environment for experimenting with Neovim configuration using Lua, without affecting your current Neovim setup.
+A Docker-based isolated environment for Ruby developers to experiment with Neovim configuration using Lua, without affecting your current Neovim setup.
 
 ## Overview
 
-This project creates a Docker container with Neovim and Lua installed, allowing you to:
-- Experiment with Neovim configuration from scratch
+This project creates a Docker container with Neovim, Ruby, and essential Ruby development tools, allowing you to:
+- Test Neovim configurations for Ruby development
 - Use Lua for plugin management and configuration
 - Keep your local Neovim setup untouched
-- Share and reproduce the environment across different machines
-- **Advanced Ruby support**: asdf-managed Ruby, Solargraph LSP, Rubocop diagnostics
+- Share and reproduce the Ruby development environment across different machines
+- **Ruby-focused setup**: Solargraph LSP, Rubocop linting, and Ruby-aware autocompletion
 - **Modern autocompletion**: nvim-cmp with LSP, buffer, path, cmdline, and Lua sources
 - **Diagnostics and search**: Telescope integration for diagnostics, files, and more
 
-## Notable Plugins
+## Ruby Development Features
 
-- [lazy.nvim](https://github.com/folke/lazy.nvim) - Plugin manager
-- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - Autocompletion engine
-  - [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
-  - [cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
-  - [cmp-path](https://github.com/hrsh7th/cmp-path)
-  - [cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline)
-  - [cmp-nvim-lua](https://github.com/hrsh7th/cmp-nvim-lua)
-- [mason.nvim](https://github.com/williamboman/mason.nvim) - LSP/DAP/linter installer
-- [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
-- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) - LSP configuration
-- [none-ls.nvim (null-ls)](https://github.com/nvimtools/none-ls.nvim) - External diagnostics (Rubocop)
-- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) - Fuzzy finder and diagnostics picker
-- [solargraph](https://solargraph.org/) - Ruby LSP (via gem and Mason)
-- [rubocop](https://github.com/rubocop/rubocop) - Ruby linter (via null-ls)
+This environment is specifically configured for Ruby development with:
 
-## Ruby Support
+- **Ruby LSP**: Solargraph for intelligent code completion, go-to-definition, and refactoring
+- **Ruby Linting**: Rubocop integration for code style and quality checks
+- **Modern Plugin Manager**: lazy.nvim for efficient plugin management
+- **Autocompletion**: nvim-cmp with Ruby-aware completion powered by Solargraph
+- **Fuzzy Search**: Telescope for file navigation, diagnostics, and Ruby-specific searches
+- **Diagnostics**: Real-time error highlighting and inline diagnostics from both LSP and Rubocop
 
-- Ruby is managed via [asdf](https://asdf-vm.com/), with the version specified at build time (see `.ruby-version`).
-- Solargraph LSP is installed globally (via Mason) and can be used in any Ruby project.
-- Rubocop diagnostics are provided via null-ls, using `bundle exec` if a Gemfile is present.
+## Testing This Solution
 
-## Autocompletion
+The easiest way to test this Neovim setup for Ruby development is using the provided Makefile commands:
 
-- nvim-cmp provides autocompletion from LSP, buffer, path, cmdline, and Lua sources.
-- Solargraph powers Ruby-aware completion and navigation.
+### Available Commands
 
-## Diagnostics and Search
+Run `make help` to see all available commands:
 
-- Telescope is integrated for searching files, buffers, and diagnostics (`<leader>sd`).
-- Diagnostics from both LSP and Rubocop are shown inline and in Telescope.
-- Execute `:checkhealth` in the nvim editor to check errors and warnings.
+```bash
+make help
+```
+
+### Quick Test Commands
+
+1. **Build the Docker image** (first time only):
+   ```bash
+   make build
+   ```
+
+2. **Test with a Ruby project** (recommended):
+   ```bash
+   # Mount a specific Ruby project
+   NVIM_WORKSPACE=/path/to/your/ruby/project make nvim
+   
+   # Or use your home directory (default)
+   make nvim
+   ```
+
+3. **Open a shell for testing**:
+   ```bash
+   # Mount a specific Ruby project
+   NVIM_WORKSPACE=/path/to/your/ruby/project make shell
+   
+   # Or use your home directory (default)
+   make shell
+   ```
+
+### Testing Ruby Features
+
+Once inside Neovim (via `make nvim`), test these Ruby development features:
+
+1. **Open a Ruby file**:
+   ```vim
+   :e /workspace/your_ruby_file.rb
+   ```
+
+2. **Test autocompletion**: Type Ruby code and use `<Tab>` or `<C-Space>` for completions
+
+3. **Test LSP features**:
+   - `gd` - Go to definition
+   - `gr` - Go to references
+   - `K` - Show documentation
+
+4. **Test diagnostics**: Look for inline error highlighting and use `:Telescope diagnostics` to see all issues
+
+5. **Test Rubocop integration**: Save a file and check for style violations
+
+6. **Check health**: Run `:checkhealth` to verify all components are working
+
+### Workspace Mounting
+
+The Makefile automatically mounts your workspace:
+- If `NVIM_WORKSPACE` is set, that path is mounted at `/workspace`
+- If not set, your home directory (`$HOME`) is mounted at `/workspace` by default
+
+This allows you to edit Ruby files from your host system inside the Docker container.
 
 ## Prerequisites
 
@@ -54,44 +98,27 @@ This project creates a Docker container with Neovim and Lua installed, allowing 
 
 ## Quick Start
 
-### 1. Clone or download this repository
+### 1. Clone this repository
 
 ```bash
 git clone <your-repo-url>
-cd nvim_docker
+cd nvim-docker
 ```
 
-### 2. Build the Docker image
-
-The Dockerfile uses Ubuntu 22.04 as the base image and compiles Neovim from source, ensuring compatibility with all processor architectures including ARM64 (Apple Silicon) and x86_64.
-
-Additionally, it installs:
-- Git, curl, ninja-build, gettext, cmake
-- Build tools (build-essential)
-- ca-certificates
-- ripgrep (for fast text searching with Telescope)
-
-This approach guarantees compatibility across all platforms and avoids issues with architecture-specific binaries or missing AppImages. Neovim is cloned and built from the official GitHub repository during the image build process.
+### 2. Build and test the solution
 
 ```bash
-docker build --no-cache -t nvim-lua .
+# Build the Docker image (first time only)
+make build
+
+# Test with a Ruby project
+NVIM_WORKSPACE=/path/to/your/ruby/project make nvim
+
+# Or test with your home directory
+make nvim
 ```
 
-### 3. Run the container
-
-```bash
-docker compose run --rm nvim-service
-```
-
-This will open the shell.
-
-### 4. Start Neovim
-
-From the container shell, run:
-
-```bash
-nvim
-```
+That's it! You're now testing the Neovim setup for Ruby development.
 
 ## Project Structure
 
@@ -216,12 +243,13 @@ volumes:
 
 The container runs as a non-root user (`nvimuser`). If you encounter permission issues, check that the `nvim_config/` directory has appropriate permissions.
 
-## Development Workflow
+## Ruby Development Workflow
 
-1. **Edit configuration**: Modify files in `nvim_config/` on your local machine
-2. **Test changes**: Run `docker compose run --rm nvim-service` to test
-3. **Iterate**: Make changes and test again
-4. **Commit**: When satisfied, commit your configuration to version control
+1. **Mount your Ruby project**: Use `NVIM_WORKSPACE=/path/to/ruby/project make nvim`
+2. **Edit Ruby files**: Open files from `/workspace` inside Neovim
+3. **Test Ruby features**: Use autocompletion, LSP navigation, and Rubocop linting
+4. **Iterate configuration**: Modify files in `nvim_config/` and test with `make nvim`
+5. **Share setup**: Commit your configuration to version control for team sharing
 
 ## Sharing and Reproducing
 
